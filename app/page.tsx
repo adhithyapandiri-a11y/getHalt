@@ -3,7 +3,7 @@ import { HeroSection } from '@/components/HeroSection'
 import { PhilosophySection } from '@/components/PhilosophySection'
 import { MechanismSection } from '@/components/MechanismSection'
 import { ComingSoonSection } from '@/components/ComingSoonSection'
-import { PixelHero } from '@/components/PixelHero'
+import { PixelPerfectBg } from '@/components/PixelPerfectBg'
 
 export const metadata = {
   title: 'halt. - Digital Willpower is a Lie',
@@ -14,17 +14,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main className="bg-black relative">
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <PixelHero 
-          word1=""
-          word2=""
-          description=""
-          primaryCta=""
-          primaryCtaMobile=""
-          secondaryCta=""
-          secondaryCtaMobile=""
-        />
-      </div>
+      <PixelPerfectBg />
       <div className="relative z-10">
         <Navigation />
         <HeroSection />
