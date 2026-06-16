@@ -14,7 +14,7 @@ export async function subscribeToWaitlist(formData: FormData) {
 
   try {
     const { error } = await resend.emails.send({
-      from: 'Halt <onboarding@resend.dev>',
+      from: 'Halt <hello@gethalt.in>',
       to: [email],
       subject: 'welcome to the resistance.',
       html: '<h1>halt.</h1><p>Digital willpower is a lie. Your place on the priority waitlist for Batch 01 has been strictly secured.</p><p>We will contact you the exact moment the physical hardware architecture goes live in India.</p>',
