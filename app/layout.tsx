@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'halt. - Digital Willpower is a Lie',
+  description: 'Halt is the un-bypassable physical circuit breaker for your screen addiction.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -33,10 +33,9 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
+  colorScheme: 'dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
   ],
 }
 
@@ -46,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} bg-black`}>
+      <body className="font-sans antialiased bg-black">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

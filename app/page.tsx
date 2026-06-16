@@ -1,16 +1,23 @@
+import { Navigation } from '@/components/Navigation'
+import { HeroSection } from '@/components/HeroSection'
+import { PhilosophySection } from '@/components/PhilosophySection'
+import { MechanismSection } from '@/components/MechanismSection'
+import { ComingSoonSection } from '@/components/ComingSoonSection'
+
+export const metadata = {
+  title: 'halt. - Digital Willpower is a Lie',
+  description:
+    'Halt is the un-bypassable physical circuit breaker for your screen addiction. The hardware solution to software weakness.',
+}
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <main className="flex w-full max-w-3xl flex-col items-center gap-8 px-6 py-16 text-center sm:items-start sm:text-left">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            getHalt
-          </h1>
-          <p className="max-w-md text-lg text-muted-foreground">
-            To get started, send a prompt or modify this page directly.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+    <main className="bg-black">
+      <Navigation />
+      <HeroSection />
+      <PhilosophySection />
+      <MechanismSection />
+      <ComingSoonSection />
+    </main>
+  )
 }
