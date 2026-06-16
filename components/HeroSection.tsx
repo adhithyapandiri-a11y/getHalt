@@ -48,7 +48,7 @@ export function HeroSection() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1f1f1f] bg-[#0a0a0a]"
                 whileHover={{ borderColor: '#888888' }}
               >
-                <span className="text-sm text-[#888888]">🇮🇳 Engineered in India</span>
+                <span className="text-sm text-[#888888]">for india</span>
               </motion.div>
             </div>
 
@@ -68,7 +68,7 @@ export function HeroSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Secure Batch 1 (₹599)
+              Coming Soon
             </motion.button>
           </motion.div>
 
