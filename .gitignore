@@ -1,16 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# Next.js dependencies and build folders
 /node_modules
-
-# next.js
 /.next/
 /out/
-
-# production
 /build
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -25,3 +21,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Android project ignores
+*.iml
+.gradle
+/local.properties
+local.properties
+.idea/
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.mp4

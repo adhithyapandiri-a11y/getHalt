@@ -10,25 +10,11 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'halt. - Digital Willpower is a Lie',
-  description: 'Halt is the un-bypassable physical circuit breaker for your screen addiction.',
-  generator: 'v0.app',
+  title: 'halt. — digital willpower is a lie.',
+  description: 'The physical circuit breaker for your screen addiction.',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/favicon.png',
+    apple: '/favicon.png',
   },
 }
 

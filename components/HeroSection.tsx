@@ -1,118 +1,134 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useRef, useState } from 'react'
-import Image from 'next/image'
+import InteractiveCard from '@/components/InteractiveCard'
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [rotateX, setRotateX] = useState(0)
-  const [rotateY, setRotateY] = useState(0)
+  const [phraseNumber, setPhraseNumber] = useState(0)
+  const phrases = useMemo(
+    () => [
+      "this is deep work.",
+      "this is absolute focus.",
+      "this is presence.",
+      "this is undisrupted."
+    ],
+    []
+  )
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (phraseNumber === phrases.length - 1) {
+        setPhraseNumber(0)
+      } else {
+        setPhraseNumber(phraseNumber + 1)
+      }
+    }, 2500)
+    return () => clearTimeout(timeoutId)
+  }, [phraseNumber, phrases])
 
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
-
-    const rotX = ((y - centerY) / centerY) * 15
-    const rotY = ((x - centerX) / centerX) * -15
-
-    setMousePosition({ x, y })
-    setRotateX(Math.max(-15, Math.min(15, rotX)))
-    setRotateY(Math.max(-15, Math.min(15, rotY)))
-  }
-
-  const handleMouseLeave = () => {
-    setRotateX(0)
-    setRotateY(0)
+  const handleScrollToWaitlist = () => {
+    const section = document.getElementById('coming-soon')
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
-    <section className="relative min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center bg-black overflow-hidden">
+    <section id="hero-viewport" className="relative min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center bg-transparent overflow-hidden select-none">
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Left Column */}
           <motion.div
+            className="lg:col-span-7 flex flex-col items-start gap-8"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {/* Badge */}
-            <div className="mb-8">
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1f1f1f] bg-[#0a0a0a]"
-                whileHover={{ borderColor: '#888888' }}
-              >
-                <span className="text-sm text-[#888888]">Engineered for India 🇮🇳</span>
-              </motion.div>
+            {/* Headline */}
+            <div className="flex flex-col gap-3 w-full">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tighter leading-[0.95] text-white">
+                digital willpower <br className="hidden md:block"/>
+                is <span className="font-normal italic text-zinc-500">a lie.</span>
+              </h1>
+              
+              {/* Cycling Brand Phrase */}
+              <div className="relative h-8 w-full overflow-hidden">
+                {phrases.map((phrase, index) => (
+                  <motion.span
+                    key={index}
+                    className="absolute left-0 text-lg sm:text-xl font-light text-white tracking-tighter"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={
+                      phraseNumber === index
+                        ? {
+                            y: 0,
+                            opacity: 1,
+                          }
+                        : {
+                            y: phraseNumber > index ? -20 : 20,
+                            opacity: 0,
+                          }
+                    }
+                    transition={{ type: "spring", stiffness: 80, damping: 15 }}
+                  >
+                    {phrase}
+                  </motion.span>
+                ))}
+              </div>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tighter">
-              digital willpower is a lie.
-            </h1>
-
             {/* Subheading */}
-            <p className="text-lg sm:text-xl text-[#888888] mb-8 max-w-xl leading-relaxed">
-              Software blockers fail because you can always click &apos;Ignore Limit&apos;. Halt is the un-bypassable physical circuit breaker for your screen addiction.
+            <p className="text-lg md:text-xl text-[#888888] max-w-xl font-light leading-relaxed tracking-tight">
+              Software blockers fail because you can always click &apos;Ignore Limit&apos;. Halt is the un-bypassable physical, matte black NFC keycard paired with a hard-lock mobile client. 
+              No digital bypasses. No passcodes. The only way back in is a physical tap.
             </p>
 
             {/* CTA Button */}
-            <motion.button
-              className="px-8 py-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors text-lg"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Coming Soon ..........</motion.button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+              <motion.button
+                onClick={handleScrollToWaitlist}
+                className="px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.04)] hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all duration-300 text-sm cursor-pointer"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                Join Priority Waitlist
+              </motion.button>
+            </div>
+
+            {/* Product Specs Footer */}
+            <div className="flex flex-wrap items-center gap-3 pt-10 border-t border-white/[0.04] w-full max-w-lg mt-4">
+              <span className="text-xs font-sans border border-white/10 px-3.5 py-1.5 rounded-full text-zinc-300 bg-white/[0.01] tracking-tight hover:border-white/20 transition-colors duration-300">
+                matte black nfc
+              </span>
+              <span className="text-xs font-sans border border-white/10 px-3.5 py-1.5 rounded-full text-zinc-300 bg-white/[0.01] tracking-tight hover:border-white/20 transition-colors duration-300">
+                zero battery
+              </span>
+              <span className="text-xs font-sans border border-white/10 px-3.5 py-1.5 rounded-full text-zinc-300 bg-white/[0.01] tracking-tight hover:border-white/20 transition-colors duration-300">
+                zero loopholes
+              </span>
+            </div>
           </motion.div>
 
-          {/* Right Column - 3D Card */}
+          {/* Right Column - 3D Card Viewport */}
           <motion.div
-            ref={containerRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="h-96 sm:h-full min-h-96 flex items-center justify-center perspective"
-            style={{ perspective: '1200px' }}
+            className="lg:col-span-5 flex flex-col items-center justify-center relative py-12 lg:py-0"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <motion.div
-              style={{
-                rotateX: rotateX,
-                rotateY: rotateY,
-              }}
-              animate={{
-                y: [0, -20, 0],
-              }}
-              transition={{
-                y: {
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                },
-              }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Image
-                src="/halt-card.png"
-                alt="Halt Card"
-                width={400}
-                height={250}
-                className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
-                style={{
-                  filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8))',
-                }}
-              />
-            </motion.div>
+            {/* Soft Backlight Glow */}
+            <div className="absolute inset-0 max-w-[500px] aspect-[1.67/1] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none blur-xl z-0" />
+
+            {/* The 3D Interactive Card Component */}
+            <div className="z-10 w-full flex justify-center py-6">
+              <InteractiveCard />
+            </div>
           </motion.div>
         </div>
       </div>
     </section>
   )
 }
+
+
