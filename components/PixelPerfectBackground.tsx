@@ -190,15 +190,13 @@ export function PixelPerfectBackground() {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
-    const div = document.createElement("div");
-    document.body.appendChild(div);
-    div.className = "text-muted-foreground";
-    const muted = getComputedStyle(div).color;
-    div.className = "text-primary";
-    const primary = getComputedStyle(div).color;
-    document.body.removeChild(div);
+    // Get colors from CSS variables directly
+    const root = getComputedStyle(document.documentElement);
+    const muted = root.getPropertyValue('--muted-foreground').trim() || '#888888';
+    const primary = root.getPropertyValue('--primary').trim() || '#ffffff';
+    const foreground = root.getPropertyValue('--foreground').trim() || '#ffffff';
     
-    setThemeColors([muted, muted, muted, muted, primary]);
+    setThemeColors([muted, muted, muted, muted, primary, foreground]);
   }, []);
 
   return (
