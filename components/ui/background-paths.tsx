@@ -12,7 +12,7 @@ function FloatingPaths({ position }: { position: number }) {
         } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
             684 - i * 5 * position
         } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-        width: 0.5 + i * 0.03,
+        width: 1 + i * 0.1,
     }));
 
     return (
@@ -21,19 +21,20 @@ function FloatingPaths({ position }: { position: number }) {
                 className="w-full h-full"
                 viewBox="0 0 696 316"
                 fill="none"
+                preserveAspectRatio="xMidYMid slice"
             >
                 <title>Background Paths</title>
                 {paths.map((path) => (
                     <motion.path
                         key={path.id}
                         d={path.d}
-                        stroke="rgba(255, 255, 255, 0.8)"
+                        stroke="rgba(255, 255, 255, 1)"
                         strokeWidth={path.width}
-                        strokeOpacity={0.15 + path.id * 0.015}
-                        initial={{ pathLength: 0.3, opacity: 0.6 }}
+                        strokeOpacity={0.25 + path.id * 0.025}
+                        initial={{ pathLength: 0.3, opacity: 0.7 }}
                         animate={{
                             pathLength: 1,
-                            opacity: [0.4, 0.7, 0.4],
+                            opacity: [0.5, 0.9, 0.5],
                             pathOffset: [0, 1, 0],
                         }}
                         transition={{
