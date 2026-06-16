@@ -1,4 +1,9 @@
-import { PixelHero } from '@/components/ui/pixel-hero'
+import { Navigation } from '@/components/Navigation'
+import { HeroSection } from '@/components/HeroSection'
+import { PhilosophySection } from '@/components/PhilosophySection'
+import { MechanismSection } from '@/components/MechanismSection'
+import { ComingSoonSection } from '@/components/ComingSoonSection'
+import { PixelBackground } from '@/components/PixelBackground'
 
 export const metadata = {
   title: 'halt. - Digital Willpower is a Lie',
@@ -8,16 +13,17 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="">
-      <PixelHero 
-        word1="halt."
-        word2="digital willpower is a lie."
-        description="Halt is the un-bypassable physical circuit breaker for your screen addiction. The hardware solution to software weakness."
-        primaryCta="Join Waitlist"
-        primaryCtaMobile="Join"
-        secondaryCta="Learn More"
-        secondaryCtaMobile="Learn"
-      />
+    <main className="bg-black relative">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <PixelBackground />
+      </div>
+      <div className="relative z-10">
+        <Navigation />
+        <HeroSection />
+        <PhilosophySection />
+        <MechanismSection />
+        <ComingSoonSection />
+      </div>
     </main>
   )
 }
