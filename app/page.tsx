@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="bg-black">
+    <main className="">
       <Navigation />
       <HeroSection />
       <PhilosophySection />
