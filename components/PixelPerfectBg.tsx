@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useRef, useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 type Pixel = {
   x: number;
@@ -87,7 +87,13 @@ function createPixel(
   return p;
 }
 
-export function GlobalPixelBackground({ colors, gap = 6, speed = 30 }: { colors: string[], gap?: number, speed?: number }) {
+type PixelCanvasProps = {
+  colors: string[];
+  gap?: number;
+  speed?: number;
+};
+
+function PixelCanvas({ colors, gap = 5, speed = 30 }: PixelCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const pixelsRef = useRef<Pixel[]>([]);
@@ -95,7 +101,7 @@ export function GlobalPixelBackground({ colors, gap = 6, speed = 30 }: { colors:
   const lastFrameRef = useRef(performance.now());
   const reducedMotionRef = useRef(false);
 
-  useEffect(() => {
+  const init = useCallback(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap || colors.length === 0) return;
@@ -103,63 +109,103 @@ export function GlobalPixelBackground({ colors, gap = 6, speed = 30 }: { colors:
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const handleResize = () => {
-      const { width, height } = wrap.getBoundingClientRect();
-      const w = Math.floor(width);
-      const h = Math.floor(height);
-      canvas.width = w;
-      canvas.height = h;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
+    const { width, height } = wrap.getBoundingClientRect();
+    const w = Math.floor(width);
+    const h = Math.floor(height);
+    canvas.width = w;
+    canvas.height = h;
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
 
-      const effectiveSpeed = reducedMotionRef.current ? 0 : Math.min(speed, 100) * 0.001;
-      const pixels: Pixel[] = [];
+    const effectiveSpeed = reducedMotionRef.current ? 0 : Math.min(speed, 100) * 0.001;
+    const pixels: Pixel[] = [];
 
-      for (let x = 0; x < w; x += gap) {
-        for (let y = 0; y < h; y += gap) {
-          const color = colors[Math.floor(Math.random() * colors.length)];
-          const dx = x - w / 2;
-          const dy = y - h / 2;
-          const delay = reducedMotionRef.current ? 0 : Math.sqrt(dx * dx + dy * dy) * 0.65;
-          pixels.push(createPixel(ctx, canvas, x, y, color, effectiveSpeed, delay));
-        }
+    for (let x = 0; x < w; x += gap) {
+      for (let y = 0; y < h; y += gap) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const dx = x - w / 2;
+        const dy = y - h / 2;
+        const delay = reducedMotionRef.current ? 0 : Math.sqrt(dx * dx + dy * dy) * 0.65;
+        pixels.push(createPixel(ctx, canvas, x, y, color, effectiveSpeed, delay));
       }
+    }
 
-      pixelsRef.current = pixels;
-    };
+    pixelsRef.current = pixels;
+  }, [colors, gap, speed]);
 
-    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    handleResize();
+  const animate = useCallback((mode: "appear" | "disappear") => {
+    cancelAnimationFrame(animationRef.current);
+    const frameInterval = 1000 / 60;
 
     const loop = () => {
       animationRef.current = requestAnimationFrame(loop);
 
       const now = performance.now();
       const elapsed = now - lastFrameRef.current;
-      const frameInterval = 1000 / 60;
       if (elapsed < frameInterval) return;
       lastFrameRef.current = now - (elapsed % frameInterval);
+
+      const canvas = canvasRef.current;
+      const ctx = canvas?.getContext("2d");
+      if (!canvas || !ctx) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const pixels = pixelsRef.current;
-      for (const pixel of pixels) pixel.appear();
+      for (const pixel of pixels) pixel[mode]();
+
+      if (pixels.every((p) => p.isIdle)) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
 
     animationRef.current = requestAnimationFrame(loop);
+  }, []);
 
-    window.addEventListener("resize", handleResize);
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    init();
+
+    const resizeObserver = new ResizeObserver(() => init());
+    if (wrapRef.current) resizeObserver.observe(wrapRef.current);
+
+    animate("appear");
 
     return () => {
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);
-      window.removeEventListener("resize", handleResize);
     };
-  }, [colors, gap, speed]);
+  }, [init, animate]);
 
   return (
-    <div ref={wrapRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div ref={wrapRef} className="absolute inset-0 overflow-hidden">
       <canvas ref={canvasRef} className="block w-full h-full" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgb(0,0,0)_100%)] pointer-events-none" />
+    </div>
+  );
+}
+
+export function PixelPerfectBg() {
+  const [themeColors, setThemeColors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    // Get theme colors
+    const div = document.createElement("div");
+    document.body.appendChild(div);
+    div.className = "text-muted-foreground";
+    const muted = getComputedStyle(div).color;
+    div.className = "text-primary";
+    const primary = getComputedStyle(div).color;
+    document.body.removeChild(div);
+    
+    setThemeColors([muted, muted, muted, muted, primary]);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      {themeColors.length > 0 && <PixelCanvas colors={themeColors} gap={6} speed={30} />}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] pointer-events-none opacity-80" />
     </div>
   );
 }
