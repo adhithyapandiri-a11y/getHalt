@@ -200,7 +200,7 @@ export function PixelPerfectBackground() {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 top-0 left-0 w-screen h-screen z-0 pointer-events-none overflow-hidden">
       {themeColors.length > 0 && <PixelCanvas colors={themeColors} gap={6} speed={30} />}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] pointer-events-none opacity-80" />
     </div>
