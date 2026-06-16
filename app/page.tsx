@@ -3,7 +3,7 @@ import { HeroSection } from '@/components/HeroSection'
 import { PhilosophySection } from '@/components/PhilosophySection'
 import { MechanismSection } from '@/components/MechanismSection'
 import { ComingSoonSection } from '@/components/ComingSoonSection'
-import { PixelBackground } from '@/components/PixelBackground'
+import { PixelPerfectBackground } from '@/components/PixelPerfectBackground'
 
 export const metadata = {
   title: 'halt. - Digital Willpower is a Lie',
@@ -14,9 +14,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main className="bg-black relative">
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <PixelBackground />
-      </div>
+      <PixelPerfectBackground />
       <div className="relative z-10">
         <Navigation />
         <HeroSection />
