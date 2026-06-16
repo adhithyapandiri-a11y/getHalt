@@ -178,31 +178,38 @@ function PixelCanvas({ colors, gap = 5, speed = 30 }: PixelCanvasProps) {
   }, [init, animate]);
 
   return (
-    <div ref={wrapRef} className="absolute inset-0 overflow-hidden">
-      <canvas ref={canvasRef} className="block w-full h-full" />
+    <div ref={wrapRef} className="absolute inset-0 overflow-hidden w-full h-full">
+      <canvas ref={canvasRef} className="block w-full h-full absolute" style={{ display: 'block' }} />
     </div>
   );
 }
 
 export function PixelPerfectBackground() {
-  const [themeColors, setThemeColors] = useState<string[]>([]);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [themeColors, setThemeColors] = useState<string[]>(['#ffffff']);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    // Set white colors for dark background
+    setThemeColors(['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff']);
+  }, []);
 
-    // Get colors from CSS variables directly
-    const root = getComputedStyle(document.documentElement);
-    const muted = root.getPropertyValue('--muted-foreground').trim() || '#888888';
-    const primary = root.getPropertyValue('--primary').trim() || '#ffffff';
-    const foreground = root.getPropertyValue('--foreground').trim() || '#ffffff';
-    
-    setThemeColors([muted, muted, muted, muted, primary, foreground]);
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (wrapRef.current) {
+        const { width, height } = wrapRef.current.getBoundingClientRect();
+        setDimensions({ width: window.innerWidth, height: window.innerHeight });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   return (
-    <div className="fixed inset-0 top-0 left-0 w-screen h-screen z-0 pointer-events-none overflow-hidden">
-      {themeColors.length > 0 && <PixelCanvas colors={themeColors} gap={6} speed={30} />}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] pointer-events-none opacity-80" />
+    <div ref={wrapRef} className="fixed inset-0 top-0 left-0 w-screen h-screen z-0 pointer-events-none overflow-hidden">
+      {themeColors.length > 0 && dimensions.width > 0 && <PixelCanvas colors={themeColors} gap={6} speed={30} />}
     </div>
   );
 }

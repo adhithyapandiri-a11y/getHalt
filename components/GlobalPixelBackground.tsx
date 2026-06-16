@@ -128,14 +128,15 @@ export function GlobalPixelBackground({ colors, gap = 6, speed = 30 }: { colors:
       pixelsRef.current = pixels;
     };
 
+    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     handleResize();
 
-    const frameInterval = 1000 / 60;
     const loop = () => {
       animationRef.current = requestAnimationFrame(loop);
 
       const now = performance.now();
       const elapsed = now - lastFrameRef.current;
+      const frameInterval = 1000 / 60;
       if (elapsed < frameInterval) return;
       lastFrameRef.current = now - (elapsed % frameInterval);
 
