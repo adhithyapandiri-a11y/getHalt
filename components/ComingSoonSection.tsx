@@ -214,9 +214,9 @@ export function ComingSoonSection() {
               © 2026 Halt Tech. All rights reserved. • Engineered in Jagtial, Telangana, India.
             </p>
             <div className="flex justify-center gap-6 text-xs font-normal tracking-wide items-center">
-              <a href="#privacy" className="text-zinc-500 hover:text-white transition-colors duration-200">
+              <Link href="/privacy" className="text-zinc-500 hover:text-white transition-colors duration-200">
                 Privacy Policy
-              </a>
+              </Link>
               <a href="#terms" className="text-zinc-500 hover:text-white transition-colors duration-200">
                 Terms of Service
               </a>
