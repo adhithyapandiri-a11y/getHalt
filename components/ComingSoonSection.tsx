@@ -218,7 +218,7 @@ export function ComingSoonSection() {
                 Privacy Policy
               </Link>
               <Link href="/terms" className="text-zinc-500 hover:text-white transition-colors duration-200">
-                Terms of Service
+                Terms & Conditions
               </Link>
               <Link
                 href="https://instagram.com/gethalt"

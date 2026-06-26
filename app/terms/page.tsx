@@ -3,11 +3,11 @@ import DotMatrix from '@/components/DotMatrix'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'halt. - Terms of Service',
-  description: 'Terms of Service for the Halt Android application.',
+  title: 'halt. - Terms & Conditions',
+  description: 'Terms & Conditions for the Halt Android application.',
 }
 
-export default function TermsOfService() {
+export default function TermsAndConditions() {
   return (
     <main className="bg-black relative min-h-screen overflow-x-hidden text-white font-sans selection:bg-white/10">
       {/* Background Layers */}
@@ -25,7 +25,7 @@ export default function TermsOfService() {
               Legal & Trust
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tighter leading-tight text-white mb-2">
-              Terms of Service <br/>
+              Terms & Conditions <br/>
               <span className="font-normal italic text-zinc-500">for Halt</span>
             </h1>
             <p className="text-xs font-mono text-zinc-500 mt-4">
@@ -36,7 +36,7 @@ export default function TermsOfService() {
           <div className="space-y-10 border-t border-white/[0.04] pt-10">
             <section className="space-y-4">
               <p className="text-zinc-400 text-sm sm:text-base font-light leading-relaxed tracking-tight">
-                Welcome to Halt. These Terms of Service ("Terms") govern your use of the Halt mobile application and any related services provided by Halt Tech. By using the app, you agree to these Terms. If you do not agree, do not use the application.
+                Welcome to Halt. These Terms & Conditions ("Terms") govern your use of the Halt mobile application and any related services provided by Halt Tech. By using the app, you agree to these Terms. If you do not agree, do not use the application.
               </p>
             </section>
 
