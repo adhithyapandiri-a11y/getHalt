@@ -80,8 +80,7 @@ export function HeroSection() {
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-[#888888] max-w-xl font-light leading-relaxed tracking-tight">
-              Software blockers fail because you can always click &apos;Ignore Limit&apos;. Halt is the un-bypassable physical, matte black NFC keycard paired with a hard-lock mobile client. 
-              No digital bypasses. No passcodes. The only way back in is a physical tap.
+              Most screen-time apps let you cheat by just clicking &apos;Ignore Limit&apos;. Halt actually stops you. It&apos;s an app that blocks your distractions, locked by a physical NFC keycard. Once locked, the only way to access your apps again is to physically tap the card to your phone. Leave the card in another room, and cheating becomes impossible.
             </p>
 
             {/* CTA Button */}
