@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export function Navigation() {
   return (
@@ -12,7 +13,9 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tighter text-white">halt.</span>
+          <Link href="/" className="text-xl font-bold tracking-tighter text-white hover:text-zinc-300 transition-colors cursor-pointer">
+            halt.
+          </Link>
         </div>
       </div>
     </motion.nav>
