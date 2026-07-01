@@ -220,6 +220,9 @@ export function ComingSoonSection() {
               <Link href="/terms" className="text-zinc-500 hover:text-white transition-colors duration-200">
                 Terms & Conditions
               </Link>
+              <Link href="/support" className="text-zinc-500 hover:text-white transition-colors duration-200">
+                Support
+              </Link>
               <Link
                 href="https://instagram.com/gethalt"
                 target="_blank"
